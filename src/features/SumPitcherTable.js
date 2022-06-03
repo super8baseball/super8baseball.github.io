@@ -1,53 +1,63 @@
-import { createTable, getCoreRowModel, useTableInstance } from '@tanstack/react-table';
+import { createTable, getCoreRowModel, useTableInstance, getSortedRowModel } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
 import { StyledTable } from '../styled';
 
 const table = createTable();
 
-const pitcherColumns = [
-  table.createDataColumn('name', {
-    header: () => '球員',
-  }),
-  table.createDataColumn('IPOuts', {
-    cell: (info) => `${Math.floor(info.getValue() / 3)}, ${info.getValue() % 3}/3`,
-    header: () => '局數',
-  }),
-  table.createDataColumn('H', {
-    header: () => '安打',
-  }),
-  table.createDataColumn('HR', {
-    header: () => '全壘打',
-  }),
-  table.createDataColumn('BB', {
-    header: () => '保送',
-  }),
-  table.createDataColumn('HBP', {
-    header: () => '觸身',
-  }),
-  table.createDataColumn('K', {
-    header: () => '三振',
-  }),
-  table.createDataColumn('WP', {
-    header: () => '暴投',
-  }),
-  table.createDataColumn('R', {
-    header: () => '失分',
-  }),
-  table.createDataColumn('ER', {
-    header: () => '責失',
-  }),
-  table.createDataColumn('TC', {
-    header: () => '守備次數',
-  }),
-  table.createDataColumn('TC_E', {
-    header: () => '守備失誤',
-  }),
-];
-
 const SumPitcherTable = ({ pitchers }) => {
+  const [sorting, setSorting] = useState([]);
+  const pitcherColumns = useMemo(
+    () => [
+      table.createDataColumn('name', {
+        header: () => '球員',
+      }),
+      table.createDataColumn('IPOuts', {
+        cell: (info) => `${Math.floor(info.getValue() / 3)}, ${info.getValue() % 3}/3`,
+        header: () => '局數',
+      }),
+      table.createDataColumn('H', {
+        header: () => '安打',
+      }),
+      table.createDataColumn('HR', {
+        header: () => '全壘打',
+      }),
+      table.createDataColumn('BB', {
+        header: () => '保送',
+      }),
+      table.createDataColumn('HBP', {
+        header: () => '觸身',
+      }),
+      table.createDataColumn('K', {
+        header: () => '三振',
+      }),
+      table.createDataColumn('WP', {
+        header: () => '暴投',
+      }),
+      table.createDataColumn('R', {
+        header: () => '失分',
+      }),
+      table.createDataColumn('ER', {
+        header: () => '責失',
+      }),
+      table.createDataColumn('TC', {
+        header: () => '守備次數',
+      }),
+      table.createDataColumn('TC_E', {
+        header: () => '守備失誤',
+      }),
+    ],
+    []
+  );
+
   const instance = useTableInstance(table, {
     data: pitchers,
     columns: pitcherColumns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
   return (
     <StyledTable>
@@ -58,7 +68,20 @@ const SumPitcherTable = ({ pitchers }) => {
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder ? null : header.renderHeader()}
+                  {header.isPlaceholder ? null : (
+                    <div
+                      {...{
+                        className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
+                        onClick: header.column.getToggleSortingHandler(),
+                      }}
+                    >
+                      {header.renderHeader()}
+                      {{
+                        asc: ' 🔼',
+                        desc: ' 🔽',
+                      }[header.column.getIsSorted()] ?? null}
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
