@@ -24,14 +24,14 @@ const Game = ({ game }) => {
             <tr>
               <td>{game.info.away}</td>
               {new Array(game.info.awayScores.length).fill('').map((_, index) => (
-                <td key={index}>{game.info.awayScores[index] ?? ''}</td>
+                <td key={index}>{game.info.awayScores[index] ?? '-'}</td>
               ))}
               <td>{R.sum(game.info.awayScores)}</td>
             </tr>
             <tr>
               <td>{game.info.home}</td>
-              {new Array(game.info.homeScores.length).fill('').map((_, index) => (
-                <td key={index}>{game.info.homeScores[index] ?? ''}</td>
+              {new Array(game.info.awayScores.length).fill('').map((_, index) => (
+                <td key={index}>{game.info.homeScores[index] ?? '-'}</td>
               ))}
               <td>{R.sum(game.info.homeScores)}</td>
             </tr>
