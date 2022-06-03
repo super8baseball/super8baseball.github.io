@@ -58,7 +58,7 @@ const App = () => {
         </div>
       </header>
       <div className="content">
-        <div>
+        <div className="tab-switch">
           <select value={selectedIndex} onChange={(e) => setSelectedIndex(e.target.value)}>
             <option value={-1}>成績總覽</option>
             {games.map((game, gameIndex) => (
@@ -71,7 +71,7 @@ const App = () => {
         {games[selectedIndex] ? (
           <Game game={games[selectedIndex]} />
         ) : (
-          <Overview sumBatters={sumBatters} sumPitchers={sumPitchers} />
+          <Overview games={games} sumBatters={sumBatters} sumPitchers={sumPitchers} />
         )}
       </div>
     </StyledApp>

@@ -46,6 +46,12 @@ export const StyledApp = styled.div`
     margin: 0 auto;
     width: 90%;
     max-width: 980px;
+    .tab-switch {
+      margin: 0 0 45px;
+      select {
+        min-height: 35px;
+      }
+    }
   }
 `;
 
