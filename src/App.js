@@ -13,7 +13,7 @@ const fetchGames = (fileNames) => {
       axios
         .get(`/resources/${name}.csv`)
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
           resolve({
             csvRaw: data,
             fileName: name,
@@ -37,7 +37,7 @@ const App = () => {
       const fileNames = R.filter((n) => n.length > 0, data.split('\n'));
       // console.log(fileNames);
       fetchGames(fileNames).then((apiGames) => {
-        console.log(apiGames);
+        // console.log(apiGames);
         const parsedGames = apiGames.map(parseGame);
         const sortedGames = R.sort((a, b) => (b.info.date.isAfter(a.info.date) ? 1 : -1), parsedGames);
         setGames(sortedGames);

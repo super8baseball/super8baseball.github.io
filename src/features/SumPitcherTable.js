@@ -11,6 +11,14 @@ const SumPitcherTable = ({ pitchers }) => {
       table.createDataColumn('name', {
         header: () => '球員',
       }),
+      table.createDataColumn('ERA', {
+        cell: (info) => info.getValue().toFixed(3),
+        header: () => '防禦率',
+      }),
+      table.createDataColumn('WHIP', {
+        cell: (info) => info.getValue().toFixed(3),
+        header: () => '被上壘率',
+      }),
       table.createDataColumn('IPOuts', {
         cell: (info) => `${Math.floor(info.getValue() / 3)}, ${info.getValue() % 3}/3`,
         header: () => '局數',

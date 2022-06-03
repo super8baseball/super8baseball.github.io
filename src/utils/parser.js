@@ -68,11 +68,12 @@ const parsePA = (PAList) => {
     FO: 0,
     GO: 0,
   };
-  const hasResult = R.filter((cell) => cell !== '', PAList);
+  const hasResult = R.filter((cell) => cell.trim() !== '', PAList);
   hasResult.forEach((result) => {
     let isAB = true;
     switch (result) {
       case 'H':
+      case '1B':
         box.H++;
         break;
       case '2B':
@@ -118,8 +119,8 @@ const parsePA = (PAList) => {
         box[result]++;
         break;
       default:
-        isAB = false;
-        break;
+        console.warn('result not match:', result);
+        return;
     }
     box.PA++;
     if (isAB) {
@@ -140,7 +141,7 @@ const toInt = (cell) => {
 
 export const parseGame = ({ csvRaw: csv, fileName }) => {
   const csvArray = convertCSVToArray(csv, { type: 'array' });
-  console.log(csvArray);
+  // console.log(csvArray);
   const info = {
     season: csvArray[0][0],
     date: moment(csvArray[0][1]),
@@ -232,9 +233,9 @@ export const sumupBatters = (battersList) => {
       });
     }
     batter.name = batterName;
-    batter.AVG = batter.AB === 0 ? '0.000' : (batter.H / batter.AB).toFixed(3);
-    batter.OBP = batter.PA === 0 ? '0.000' : ((batter.H + batter.BB + batter.HBP) / batter.PA).toFixed(3);
-    batter.TCPT = batter.TC === 0 ? '0.00' : ((batter.TC - batter.TC_E) / batter.TC).toFixed(2);
+    batter.AVG = parseFloat(batter.AB === 0 ? '0.000' : (batter.H / batter.AB).toFixed(3));
+    batter.OBP = parseFloat(batter.PA === 0 ? '0.000' : ((batter.H + batter.BB + batter.HBP) / batter.PA).toFixed(3));
+    batter.TCPT = parseFloat(batter.TC === 0 ? '0.00' : ((batter.TC - batter.TC_E) / batter.TC).toFixed(2));
     return batter;
   });
 };
@@ -261,6 +262,22 @@ export const sumupPitchers = (pitchersList) => {
       });
     }
     pitcher.name = pitcherName;
+    pitcher.ERA = parseFloat(
+      pitcher.IPOuts === 0
+        ? pitcher.ER > 0
+          ? Number.POSITIVE_INFINITY
+          : '0.000'
+        : ((pitcher.ER / pitcher.IPOuts) * 9 * 3).toFixed(3)
+    );
+
+    const WHIPValue = pitcher.H + pitcher.BB + pitcher.HBP;
+    pitcher.WHIP = parseFloat(
+      pitcher.IPOuts === 0
+        ? WHIPValue > 0
+          ? Number.POSITIVE_INFINITY
+          : '0.000'
+        : ((WHIPValue / pitcher.IPOuts) * 3).toFixed(3)
+    );
     return pitcher;
   });
 };

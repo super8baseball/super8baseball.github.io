@@ -13,9 +13,11 @@ const SumBatterTable = ({ batters }) => {
         header: () => '球員',
       }),
       table.createDataColumn('AVG', {
+        cell: (info) => info.getValue().toFixed(3),
         header: () => '打擊率',
       }),
       table.createDataColumn('OBP', {
+        cell: (info) => info.getValue().toFixed(3),
         header: () => '上壘率',
       }),
       table.createDataColumn('PA', {
@@ -79,6 +81,7 @@ const SumBatterTable = ({ batters }) => {
         header: () => '盜壘失敗',
       }),
       table.createDataColumn('TCPT', {
+        cell: (info) => info.getValue().toFixed(3),
         header: () => '守備率',
       }),
       table.createDataColumn('TC', {
