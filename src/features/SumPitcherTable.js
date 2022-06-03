@@ -1,6 +1,7 @@
 import { createTable, getCoreRowModel, useTableInstance, getSortedRowModel } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { StyledTable } from '../styled';
+import { numberDisplay } from '../utils/common';
 
 const table = createTable();
 
@@ -8,6 +9,10 @@ const SumPitcherTable = ({ pitchers }) => {
   const [sorting, setSorting] = useState([]);
   const pitcherColumns = useMemo(
     () => [
+      table.createDataColumn('number', {
+        cell: (info) => numberDisplay(info.getValue()),
+        header: () => '背號',
+      }),
       table.createDataColumn('name', {
         header: () => '球員',
       }),

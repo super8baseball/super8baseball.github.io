@@ -168,6 +168,7 @@ export const parseGame = ({ csvRaw: csv, fileName }) => {
 
     const pitcher = {
       name: row[0],
+      number: R.is(Number, row[1]) ? row[1] : -1,
       IPOuts: row[2],
       H: toInt(row[3]),
       HR: toInt(row[4]),
@@ -192,6 +193,7 @@ export const parseGame = ({ csvRaw: csv, fileName }) => {
     const batter = {
       order: row[0],
       name: row[1],
+      number: R.is(Number, row[2]) ? row[2] : -1,
       positions: R.is(Number, row[3]) ? [`${row[3]}`] : row[3].split(';'),
       ...parseFielding(row[4]),
       ...parseCatcherFielding(row[5]),
@@ -214,13 +216,14 @@ export const parseGame = ({ csvRaw: csv, fileName }) => {
 export const sumupBatters = (battersList) => {
   const batters = R.flatten(battersList);
   const batterMapping = R.groupBy((b) => b.name, batters);
-  const excludeColumns = ['order', 'name', 'positions'];
+  const excludeColumns = ['order', 'name', 'number', 'positions'];
 
   return Object.keys(batterMapping).map((batterName) => {
     const records = batterMapping[batterName];
     const batter = {
       ...records[0],
     };
+    let number = batter.number;
     excludeColumns.forEach((excludeColumn) => {
       delete batter[excludeColumn];
     });
@@ -230,9 +233,14 @@ export const sumupBatters = (battersList) => {
         Object.keys(batter).forEach((column) => {
           batter[column] += record[column];
         });
+        if (number < 0) {
+          number = batter.number;
+        }
       });
     }
+
     batter.name = batterName;
+    batter.number = number;
     batter.AVG = parseFloat(batter.AB === 0 ? '0.000' : (batter.H / batter.AB).toFixed(3));
     batter.OBP = parseFloat(batter.PA === 0 ? '0.000' : ((batter.H + batter.BB + batter.HBP) / batter.PA).toFixed(3));
     batter.TCPT = parseFloat(batter.TC === 0 ? '0.00' : ((batter.TC - batter.TC_E) / batter.TC).toFixed(2));
@@ -243,13 +251,14 @@ export const sumupBatters = (battersList) => {
 export const sumupPitchers = (pitchersList) => {
   const pitchers = R.flatten(pitchersList);
   const pitcherMapping = R.groupBy((b) => b.name, pitchers);
-  const excludeColumns = ['name'];
+  const excludeColumns = ['name', 'number'];
 
   return Object.keys(pitcherMapping).map((pitcherName) => {
     const records = pitcherMapping[pitcherName];
     const pitcher = {
       ...records[0],
     };
+    let number = pitcher.number;
     excludeColumns.forEach((excludeColumn) => {
       delete pitcher[excludeColumn];
     });
@@ -259,9 +268,13 @@ export const sumupPitchers = (pitchersList) => {
         Object.keys(pitcher).forEach((column) => {
           pitcher[column] += record[column];
         });
+        if (number < 0) {
+          number = pitcher.number;
+        }
       });
     }
     pitcher.name = pitcherName;
+    pitcher.number = number;
     pitcher.ERA = parseFloat(
       pitcher.IPOuts === 0
         ? pitcher.ER > 0

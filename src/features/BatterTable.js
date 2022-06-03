@@ -1,5 +1,6 @@
 import { createTable, getCoreRowModel, useTableInstance } from '@tanstack/react-table';
 import { StyledTable } from '../styled';
+import { positionDisplay } from '../utils/common';
 
 const table = createTable();
 
@@ -11,7 +12,7 @@ const batterColumns = [
     header: () => '球員',
   }),
   table.createDataColumn('positions', {
-    cell: (info) => info.getValue().join(', '),
+    cell: (info) => info.getValue().map(positionDisplay).join(', '),
     header: () => '守位',
   }),
   table.createDataColumn('PA', {
