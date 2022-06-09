@@ -80,7 +80,7 @@ const SumPitcherTable = ({ pitchers }) => {
           {instance.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan}>
+                <th key={header.id} colSpan={header.colSpan} className={header.id}>
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
@@ -104,7 +104,9 @@ const SumPitcherTable = ({ pitchers }) => {
           {instance.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{cell.renderCell()}</td>
+                <td key={cell.id} className={cell.column.id}>
+                  {cell.renderCell()}
+                </td>
               ))}
             </tr>
           ))}

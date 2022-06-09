@@ -69,6 +69,7 @@ export const StyledGame = styled.div`
 
 export const StyledTable = styled.div`
   overflow-x: auto;
+  max-height: 80vh;
   .title {
     font-size: 24px;
     margin: 10px 0 2px;
@@ -90,5 +91,37 @@ export const StyledTable = styled.div`
     text-align: center;
     white-space: nowrap;
     padding: 6px 10px;
+  }
+
+  thead th {
+    top: 0;
+    position: sticky;
+    z-index: 49;
+    background-color: #fcfcfc;
+  }
+
+  .number,
+  .order {
+    width: 50px;
+    left: 0px;
+    position: sticky;
+    z-index: 50;
+    background-color: #fcfcfc;
+  }
+  th .number,
+  .order {
+    top: 0;
+  }
+  .name {
+    left: 50px;
+    position: sticky;
+    z-index: 50;
+    background-color: #fcfcfc;
+    &.pitcher {
+      left: 0;
+    }
+  }
+  th .name {
+    top: 0;
   }
 `;
