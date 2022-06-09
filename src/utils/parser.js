@@ -116,6 +116,8 @@ const parsePA = (PAList) => {
       case 'E':
       case 'FO':
       case 'GO':
+      case 'F':
+      case 'G':
         box[result]++;
         break;
       default:
