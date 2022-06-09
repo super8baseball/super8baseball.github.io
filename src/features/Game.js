@@ -26,14 +26,14 @@ const Game = ({ game }) => {
               {new Array(game.info.awayScores.length).fill('').map((_, index) => (
                 <td key={index}>{game.info.awayScores[index] ?? '-'}</td>
               ))}
-              <td>{R.sum(game.info.awayScores)}</td>
+              <td>{R.sum(R.filter((s) => R.is(Number, s), game.info.awayScores))}</td>
             </tr>
             <tr>
               <td>{game.info.home}</td>
               {new Array(game.info.awayScores.length).fill('').map((_, index) => (
                 <td key={index}>{game.info.homeScores[index] ?? '-'}</td>
               ))}
-              <td>{R.sum(game.info.homeScores)}</td>
+              <td>{R.sum(R.filter((s) => R.is(Number, s), game.info.homeScores))}</td>
             </tr>
           </tbody>
         </table>
