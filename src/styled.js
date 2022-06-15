@@ -96,32 +96,28 @@ export const StyledTable = styled.div`
   thead th {
     top: 0;
     position: sticky;
-    z-index: 49;
+    z-index: 20;
     background-color: #fcfcfc;
+    &.number,
+    &.order,
+    &.name {
+      z-index: 50;
+    }
   }
 
   .number,
-  .order {
+  .order,
+  .name {
     width: 50px;
     left: 0px;
     position: sticky;
-    z-index: 50;
     background-color: #fcfcfc;
   }
-  th .number,
-  .order {
-    top: 0;
-  }
+
   .name {
     left: 50px;
-    position: sticky;
-    z-index: 50;
-    background-color: #fcfcfc;
     &.pitcher {
-      left: 0;
+      left: 0px;
     }
-  }
-  th .name {
-    top: 0;
   }
 `;
