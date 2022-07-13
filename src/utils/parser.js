@@ -2,6 +2,27 @@ import moment from 'moment';
 import convertCSVToArray from 'convert-csv-to-array';
 import * as R from 'ramda';
 
+const parseRecord = (cell = '') => {
+  const data = {
+    W: 0,
+    L: 0,
+    H: 0,
+    SV: 0,
+    BS: 0,
+  };
+
+  const records = cell.split(';');
+  records.forEach((record) => {
+    if (!(record in data)) {
+      return;
+    }
+    data[record]++;
+    return;
+  });
+
+  return data;
+};
+
 const parseFielding = (cell) => {
   const data = {
     TC: 0,
@@ -181,6 +202,7 @@ export const parseGame = ({ csvRaw: csv, fileName }) => {
       R: toInt(row[9]),
       ER: toInt(row[10]),
       ...parseFielding(row[11]),
+      ...parseRecord(row[12]),
     };
     pitchers.push(pitcher);
   }
