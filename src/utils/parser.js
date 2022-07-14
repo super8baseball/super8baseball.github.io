@@ -4,19 +4,19 @@ import * as R from 'ramda';
 
 const parseRecord = (cell = '') => {
   const data = {
-    W: 0,
-    L: 0,
-    H: 0,
-    SV: 0,
-    BS: 0,
+    record_W: 0,
+    record_L: 0,
+    record_H: 0,
+    record_SV: 0,
+    record_BS: 0,
   };
 
   const records = cell.split(';');
   records.forEach((record) => {
-    if (!(record in data)) {
+    if (!(`record_${record}` in data)) {
       return;
     }
-    data[record]++;
+    data[`record_${record}`]++;
     return;
   });
 

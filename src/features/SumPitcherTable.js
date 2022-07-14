@@ -16,19 +16,19 @@ const SumPitcherTable = ({ pitchers }) => {
       table.createDataColumn('name', {
         header: () => '球員',
       }),
-      table.createDataColumn('W', {
+      table.createDataColumn('record_W', {
         header: () => '勝',
       }),
-      table.createDataColumn('L', {
+      table.createDataColumn('record_L', {
         header: () => '敗',
       }),
-      table.createDataColumn('H', {
+      table.createDataColumn('record_H', {
         header: () => '中繼',
       }),
-      table.createDataColumn('SV', {
+      table.createDataColumn('record_SV', {
         header: () => '救援成功',
       }),
-      table.createDataColumn('BS', {
+      table.createDataColumn('record_BS', {
         header: () => '救援失敗',
       }),
       table.createDataColumn('ERA', {
