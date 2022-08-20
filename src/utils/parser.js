@@ -28,7 +28,7 @@ const parseFielding = (cell) => {
     TC: 0,
     TC_E: 0,
   };
-  if (cell === '' || !cell.match(/^\d+;\d+$/)) {
+  if (!cell || cell === '' || !cell.match(/^\d+;\d+$/)) {
     return data;
   }
 
@@ -44,7 +44,7 @@ const parseCatcherFielding = (cell) => {
     C_SB: 0,
     C_CS: 0,
   };
-  if (cell === '' || !cell.match(/^\d+;\d+;\d+$/)) {
+  if (!cell || cell === '' || !cell.match(/^\d+;\d+;\d+$/)) {
     return data;
   }
 
