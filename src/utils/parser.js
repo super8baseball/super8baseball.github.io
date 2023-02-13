@@ -165,9 +165,11 @@ const toInt = (cell) => {
 export const parseGame = ({ csvRaw: csv, fileName }) => {
   const csvArray = convertCSVToArray(csv, { type: 'array' });
   // console.log(csvArray);
+  const date = moment(csvArray[0][1]);
   const info = {
     season: csvArray[0][0],
-    date: moment(csvArray[0][1]),
+    year: date.year(),
+    date: date,
     location: csvArray[0][2],
     away: csvArray[2][0],
     awayScores: R.filter(

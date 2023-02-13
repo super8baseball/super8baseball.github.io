@@ -47,8 +47,15 @@ const App = () => {
         setGames(sortedGames);
         setSumBatters(sumupBatters(sortedGames.map((g) => g.batters)));
         setSumPitchers(sumupPitchers(sortedGames.map((g) => g.pitchers)));
+        // console.log(sortedGames);
 
-        setSeasonGroups(R.groupBy((game) => game.info.season, sortedGames));
+        const years = R.groupBy((game) => `${game.info.year} 全年度`, sortedGames);
+        const groups = R.groupBy((game) => game.info.season, sortedGames);
+
+        setSeasonGroups({
+          ...years,
+          ...groups,
+        });
       });
     });
   }, []);
