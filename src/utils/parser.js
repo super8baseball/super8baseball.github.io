@@ -139,6 +139,9 @@ const parsePA = (PAList) => {
       case 'GO':
       case 'F':
       case 'G':
+        if (['F', 'G'].includes(result)) {
+          result += 'O';
+        }
         box[result]++;
         break;
       default:
