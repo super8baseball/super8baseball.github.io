@@ -166,7 +166,7 @@ const toInt = (cell) => {
 };
 
 export const parseGame = ({ csvRaw: csv, fileName }) => {
-  const csvArray = convertCSVToArray(csv, { type: 'array' });
+  const csvArray = convertCSVToArray(csv + '\n', { type: 'array' });
   // console.log(csvArray);
   const date = moment(csvArray[0][1]);
   const info = {
